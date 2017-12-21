@@ -1,0 +1,61 @@
+Bluetooth : 
+
+
+bluetoothctl ; 
+
+si ne marche pas, tester interface graphique;
+si ne marche toujours pas : 
+
+Do once : 
+
+sudo nano /etc/systemd/system/dbus-org.bluez.service 
+
+	écrire  :"ExecStart=/usr/lib/bluetooth/bluetoothd -C
+		  ExecStartPost=/usr/bin/sdptool add SP "
+save and reboot 
+
+Then :
+
+ 
+	sudo rfcomm watch hci0		puis connecter dans App Bluetooth Serial Controller 
+	
+Dans un autre terminal : 
+
+	se placer dans le dissier où créer le fichier puis : 
+
+
+	minicom -D /dev/rfcomm0 -C nom_de_fichier
+
+
+
+voir premier lien pour automatiser procédure  ;
+
+ Une fois la connexion testée avec succès il est possible de rendre permanente la liaison avec le téléphone. Pour cela il vous faut éditer le fichier /etc/bluetooth/rfcomm.conf et y copier le contenu suivant en remplaçant avec l'adresse et le channel Bluetooth de votre téléphone:
+
+rfcomm0 {
+	# Liaison automatique de rfcomm0 au démarrage
+	bind yes;
+
+	# Adresse Bluetooth du périphérique
+	device 00:0E:07:30:6B:78;
+
+	# Canal RFCOMM à utiliser
+	channel	1;
+}
+
+
+
+
+
+liens utile : 
+
+https://www.raspberrypi.org/forums/viewtopic.php?t=138544
+https://doc.ubuntu-fr.org/tutoriel/connexion_internet_via_mobile_bluetooth
+
+
+https://djgsi974.wordpress.com/2015/03/28/faire-deplacer-mon-robot-en-utilisant-mon-telephone-android/
+
++ fichier bluetooth.docx
+
+
+
